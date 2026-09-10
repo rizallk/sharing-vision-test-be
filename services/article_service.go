@@ -9,7 +9,7 @@ import (
 
 type ArticleService interface {
 	CreateArticle(req models.ArticleRequest) error
-	GetAllArticles(limit int, offset int) ([]models.Post, error)
+	GetAllArticles(limit int, offset int, status string) ([]models.Post, error)
 	GetArticleByID(id uint) (*models.Post, error)
 	UpdateArticle(id uint, req models.ArticleRequest) error
 	DeleteArticle(id uint) error
@@ -55,8 +55,8 @@ func (s *articleService) CreateArticle(req models.ArticleRequest) error {
 	return s.articleRepo.Create(&post)
 }
 
-func (s *articleService) GetAllArticles(limit int, offset int) ([]models.Post, error) {
-	return s.articleRepo.FindAll(limit, offset)
+func (s *articleService) GetAllArticles(limit int, offset int, status string) ([]models.Post, error) {
+	return s.articleRepo.FindAll(limit, offset, status)
 }
 
 func (s *articleService) GetArticleByID(id uint) (*models.Post, error) {

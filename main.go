@@ -4,6 +4,7 @@ import (
 	"log"
 
 	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/rizallk/sharing-vision-test-be/config"
 	"github.com/rizallk/sharing-vision-test-be/controllers"
 	"github.com/rizallk/sharing-vision-test-be/repositories"
@@ -17,6 +18,8 @@ func main() {
 	config.ConnectDB()
 
 	app := fiber.New()
+
+	app.Use(cors.New())
 
 	// Article
 	articleRepo := repositories.NewArticleRepository(config.DB)

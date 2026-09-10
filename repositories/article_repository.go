@@ -7,7 +7,7 @@ import (
 
 type ArticleRepository interface {
 	Create(post *models.Post) error
-	FindAll(limit int, offset int) ([]models.Post, error)
+	FindAll(limit int, offset int, status string) ([]models.Post, error)
 	FindByID(id uint) (*models.Post, error)
 	Update(post *models.Post) error
 	Delete(id uint) error
@@ -25,9 +25,15 @@ func (r *articleRepository) Create(post *models.Post) error {
 	return r.db.Create(post).Error
 }
 
-func (r *articleRepository) FindAll(limit int, offset int) ([]models.Post, error) {
+func (r *articleRepository) FindAll(limit int, offset int, status string) ([]models.Post, error) {
 	var posts []models.Post
-	err := r.db.Limit(limit).Offset(offset).Find(&posts).Error
+	query := r.db.Limit(limit).Offset(offset)
+
+	if status != "" {
+		query = query.Where("status = ?", status)
+	}
+
+	err := query.Find(&posts).Error
 	return posts, err
 }
 
@@ -42,5 +48,5 @@ func (r *articleRepository) Update(post *models.Post) error {
 }
 
 func (r *articleRepository) Delete(id uint) error {
-	return r.db.Delete(&models.Post{}, id).Error
+	return r.db.Model(&models.Post{}).Where("id = ?", id).Update("status", "trash").Error
 }

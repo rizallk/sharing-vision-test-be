@@ -42,7 +42,9 @@ func (c *ArticleController) GetAllArticles(ctx *fiber.Ctx) error {
 		offset = 0 // Default fallback offset
 	}
 
-	articles, err := c.articleService.GetAllArticles(limit, offset)
+	status := ctx.Query("status", "")
+
+	articles, err := c.articleService.GetAllArticles(limit, offset, status)
 	if err != nil {
 		return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
 	}
