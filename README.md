@@ -31,7 +31,7 @@ sharing-vision-test-be/
 1. **Prasyarat:**
    - Pastikan Golang dan MySQL telah terinstal.
 2. **Setup Database:**
-   - Buat database baru dengan nama `article`
+   - Buat database baru dengan nama `article` dan tabel `posts` sesuai dengan struktur yang ada di file `models/post.go`.
 3. **Install Dependencies:**
    ```bash
    go mod tidy
